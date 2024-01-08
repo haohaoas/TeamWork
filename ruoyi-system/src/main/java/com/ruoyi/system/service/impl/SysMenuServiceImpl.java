@@ -22,7 +22,6 @@ import com.ruoyi.system.domain.vo.MetaVo;
 import com.ruoyi.system.domain.vo.RouterVo;
 import com.ruoyi.system.mapper.SysMenuMapper;
 import com.ruoyi.system.mapper.SysRoleMapper;
-import com.ruoyi.system.mapper.SysRoleMenuMapper;
 import com.ruoyi.system.service.ISysMenuService;
 
 /**
@@ -41,8 +40,6 @@ public class SysMenuServiceImpl implements ISysMenuService
     @Autowired
     private SysRoleMapper roleMapper;
 
-    @Autowired
-    private SysRoleMenuMapper roleMenuMapper;
 
     /**
      * 根据用户查询系统菜单列表
@@ -280,17 +277,16 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     * 查询菜单使用数量
-     * 
+     * 查询菜单是否存在角色
+     *
      * @param menuId 菜单ID
-     * @return 结果
+     * @return 结果 true 存在 false 不存在
      */
     @Override
-    public boolean checkMenuExistRole(Long menuId)
-    {
-        int result = roleMenuMapper.checkMenuExistRole(menuId);
-        return result > 0;
+    public boolean checkMenuExistRole(Long menuId) {
+        return false;
     }
+
 
     /**
      * 新增保存菜单信息

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.common.core.domain.entity.SysUser;
-import com.ruoyi.system.service.ISysMenuService;
 import com.ruoyi.system.service.ISysRoleService;
 
 /**
@@ -22,8 +21,6 @@ public class SysPermissionService
     @Autowired
     private ISysRoleService roleService;
 
-    @Autowired
-    private ISysMenuService menuService;
 
     /**
      * 获取角色数据权限
@@ -48,7 +45,7 @@ public class SysPermissionService
 
     /**
      * 获取菜单数据权限
-     * 
+     *
      * @param user 用户信息
      * @return 菜单权限信息
      */
@@ -59,24 +56,6 @@ public class SysPermissionService
         if (user.isAdmin())
         {
             perms.add("*:*:*");
-        }
-        else
-        {
-            List<SysRole> roles = user.getRoles();
-            if (!CollectionUtils.isEmpty(roles))
-            {
-                // 多角色设置permissions属性，以便数据权限匹配权限
-                for (SysRole role : roles)
-                {
-                    Set<String> rolePerms = menuService.selectMenuPermsByRoleId(role.getRoleId());
-                    role.setPermissions(rolePerms);
-                    perms.addAll(rolePerms);
-                }
-            }
-            else
-            {
-                perms.addAll(menuService.selectMenuPermsByUserId(user.getUserId()));
-            }
         }
         return perms;
     }
